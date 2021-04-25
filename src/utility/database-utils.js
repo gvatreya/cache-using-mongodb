@@ -15,7 +15,7 @@ const env_port = ENV.DB_PORT || 27017
 const env_pool = ENV.DB_POOL || 20
 const env_db_name = ENV.DB_NAME || 'cache'
 
-const CONNECTION_URL = `mongodb://${env_host}:${env_port}/${env_db_name}?poolSize=${env_pool}&usNewUrlParser=true&useUnifiedTopology=true`;
+const CONNECTION_URL = `mongodb://${env_host}:${env_port}/${env_db_name}?poolSize=${env_pool}&useNewUrlParser=true&useUnifiedTopology=true`;
 
 let db = null;
 let dbClient = null;
@@ -87,6 +87,14 @@ const getCountOfCollection = async function getCountOfCollection(collectionName,
     return await db.collection(collectionName).countDocuments(searchCriteria)
 }
 
+const closeConnection = async function closeConnection() {
+    if(dbClient) {
+        console.log('closing connection')
+        await dbClient.close()
+        db = null
+    }
+}
+
 module.exports = {
     getAll: getAll,
     findByCriteria: findByCriteria,
@@ -96,5 +104,6 @@ module.exports = {
     insertOne: insertOne,
     drop: drop,
     findCriteriaWithSortAndLimit: findCriteriaWithSortAndLimit,
-    getCountOfCollection: getCountOfCollection
+    getCountOfCollection: getCountOfCollection,
+    closeConnection: closeConnection
 }
