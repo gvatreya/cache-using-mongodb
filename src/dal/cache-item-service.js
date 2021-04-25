@@ -70,6 +70,11 @@ const updateCacheItem = async function updateCacheItem(key, updateJson) {
 }
 
 const createCacheItem = async function createCacheItem(cacheItem) {
+    const countOfCollection = await DbUtils.getCountOfCollection('cache', {});
+    if(countOfCollection >= Constants.MAX_CACHE_ITEMS) {
+        console.info('Cache Item count reached. Removing oldes by LRU')
+        await removeByLru();
+    }
     console.debug('Creating cache by ' + cacheItem)
     const currentTime = new Date().getTime();
     cacheItem.ttl = currentTime + Constants.CACHE_TTL_IN_MILLIS
@@ -96,7 +101,7 @@ const replaceCacheItem = async function replaceCacheItem(key) {
 }
 
 const deleteCacheItem = async function deleteCacheItem(key) {
-    console.debug(`Deleteing cache with key ${key}`)
+    console.debug(`Deleting cache with key ${key}`)
     const searchCriteria = {
         'key': key
     }
@@ -105,6 +110,18 @@ const deleteCacheItem = async function deleteCacheItem(key) {
 
 const deleteAllCacheItems = async function deleteAllCacheItems() {
     await DbUtils.drop('cache')
+}
+
+const removeByLru = async function removeByLru() {
+    console.debug("Fetching last recently used cache item")
+    const sortCondition = {
+        'last_access_time':1
+    }
+    const lruItem = await DbUtils.findCriteriaWithSortAndLimit('cache', sortCondition, 1);
+    console.debug('###' + lruItem._id)
+    if(lruItem) {
+        await deleteCacheItem(lruItem._id)
+    }
 }
 
 const isTtlValid = function isTtlValid(cacheItem) {
@@ -120,4 +137,5 @@ module.exports = {
     createCacheItem: createCacheItem,
     deleteCacheItem: deleteCacheItem,
     deleteAllCacheItems: deleteAllCacheItems,
+    removeByLru: removeByLru,
 }

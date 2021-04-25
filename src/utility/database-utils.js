@@ -75,6 +75,19 @@ const drop = async function drop(collectionName) {
     return await db.collection(collectionName).drop()
 }
 
+//FIXME: Needs to be debugged - sort and limit not working?
+const findCriteriaWithSortAndLimit = async function findCriteriaWithSortAndLimit(collectionName, sortCondition, limit) {
+    console.debug(`SortCondition ` + JSON.stringify(sortCondition))
+    const db = await getDb()
+    return await db.collection(collectionName).find({}).sort(sortCondition).limit(limit)
+}
+
+const getCountOfCollection = async function getCountOfCollection(collectionName, searchCriteria) {
+    console.debug(`searchCriteria ${searchCriteria}`)
+    const db = await getDb()
+    return await db.collection(collectionName).countDocuments(searchCriteria)
+}
+
 module.exports = {
     getAll: getAll,
     findByCriteria: findByCriteria,
@@ -82,5 +95,7 @@ module.exports = {
     update: update,
     deleteOne: deleteOne,
     insertOne: insertOne,
-    drop: drop
+    drop: drop,
+    findCriteriaWithSortAndLimit: findCriteriaWithSortAndLimit,
+    getCountOfCollection: getCountOfCollection
 }
