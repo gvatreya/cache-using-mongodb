@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "d3a69fe4-6825-49fc-9548-c1a9a13fa3ff",
+		"name": "Mongo Caching",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Cache",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/cache-items",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Cache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"key\": \"Bama\",\n    \"value\": \"B for Bama\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/cache-items",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Cache",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": \"New Value2 for Rama\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/cache-items/Rama",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items",
+						"Rama"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cache Key",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/cache-items/Rama",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items",
+						"Rama"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Key",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/cache-items/RamaG",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items",
+						"RamaG"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/cache-items",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cache-items"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
