@@ -57,10 +57,22 @@ const update = async function update(collectionName, searchCriteria, updateJson)
     return await db.collection(collectionName).updateOne(searchCriteria, {$set : updateJson} )
 }
 
-const insertOne = async function insertOne(collectionName, object) {
-    console.debug('Inserting item: ' + JSON.stringify(object))
+const insertOne = async function insertOne(collectionName, insertObject) {
+    console.debug('Inserting item: ' + JSON.stringify(insertObject))
     const db = await getDb()
-    return await db.collection(collectionName).insertOne(object)
+    return await db.collection(collectionName).insertOne(insertObject)
+}
+
+const deleteOne = async function deleteOne(collectionName, searchCriteria) {
+    console.debug('Deleting item: ' + JSON.stringify(searchCriteria))
+    const db = await getDb()
+    return await db.collection(collectionName).deleteOne(searchCriteria)
+}
+
+const drop = async function drop(collectionName) {
+    console.debug(`Dropping collection ${collectionName}`)
+    const db = await getDb()
+    return await db.collection(collectionName).drop()
 }
 
 module.exports = {
@@ -68,5 +80,7 @@ module.exports = {
     findByCriteria: findByCriteria,
     findOne: findOne,
     update: update,
-    insertOne: insertOne
+    deleteOne: deleteOne,
+    insertOne: insertOne,
+    drop: drop
 }

@@ -34,6 +34,18 @@ app.put('/cache-items/:key', (request, response, next) => {
         .catch(next)
 })
 
+app.delete('/cache-items/:key', (request, response, next) => {
+    CacheItemHandler.deleteCacheItem(request, response)
+        .then(results => response.status(Constants.STATUS_CODES.NO_CONTENT).json())
+        .catch(next)
+})
+
+app.delete('/cache-items', (request, response, next) => {
+    CacheItemHandler.deleteAllCacheItems(request, response)
+        .then(results => response.status(Constants.STATUS_CODES.NO_CONTENT).json())
+        .catch(next)
+})
+
 app.use(function (err, req, res, next) {
         console.log(err.stack)
         console.log(err)

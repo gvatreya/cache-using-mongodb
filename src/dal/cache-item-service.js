@@ -95,6 +95,18 @@ const replaceCacheItem = async function replaceCacheItem(key) {
     return {...updateJson, ...searchCriteria}
 }
 
+const deleteCacheItem = async function deleteCacheItem(key) {
+    console.debug(`Deleteing cache with key ${key}`)
+    const searchCriteria = {
+        'key': key
+    }
+    await DbUtils.deleteOne('cache', searchCriteria)
+}
+
+const deleteAllCacheItems = async function deleteAllCacheItems() {
+    await DbUtils.drop('cache')
+}
+
 const isTtlValid = function isTtlValid(cacheItem) {
     const currentTime = new Date();
     return currentTime.getTime() <= cacheItem.ttl;
@@ -106,4 +118,6 @@ module.exports = {
     replaceCacheItem: replaceCacheItem,
     updateCacheItem: updateCacheItem,
     createCacheItem: createCacheItem,
+    deleteCacheItem: deleteCacheItem,
+    deleteAllCacheItems: deleteAllCacheItems,
 }

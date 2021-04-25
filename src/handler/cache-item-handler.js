@@ -33,10 +33,23 @@ const update = async function update(request, response) {
     await CacheItemDbSvc.updateCacheItem(key, {value: value})
 }
 
+const deleteCacheItem = async function deleteCacheItem(request, response) {
+    const key = request.params.key
+    // FIXME: Validation
+    console.log(`Key: ${key}`)
+    await CacheItemDbSvc.deleteCacheItem(key)
+}
+
+const deleteAllCacheItems = async function deleteAllCacheItems(request, response) {
+    await CacheItemDbSvc.deleteAllCacheItems()
+}
+
 
 module.exports = {
     getAll: getAll,
     findByKey: findByKey,
     create: create,
-    update: update
+    update: update,
+    deleteCacheItem: deleteCacheItem,
+    deleteAllCacheItems: deleteAllCacheItems
 }
