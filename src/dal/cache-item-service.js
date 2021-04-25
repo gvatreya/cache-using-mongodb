@@ -12,9 +12,8 @@ const Constants = require('../utility/constants')
 
 
 const getAll = async function getAll() {
-    console.debug('Fetching all cache-items')
     const results = await DbUtils.getAll('cache')
-    console.log(results)
+    // console.debug(results)
     return results
 }
 
@@ -75,7 +74,7 @@ const createCacheItem = async function createCacheItem(cacheItem) {
         console.info('Cache Item count reached. Removing oldes by LRU')
         await removeByLru();
     }
-    console.debug('Creating cache by ' + cacheItem)
+    console.debug('Creating cache by ' + JSON.stringify(cacheItem))
     const currentTime = new Date().getTime();
     cacheItem.ttl = currentTime + Constants.CACHE_TTL_IN_MILLIS
     cacheItem.last_access_time = currentTime
@@ -118,9 +117,11 @@ const removeByLru = async function removeByLru() {
         'last_access_time':1
     }
     const lruItem = await DbUtils.findCriteriaWithSortAndLimit('cache', sortCondition, 1);
-    console.debug('###' + lruItem._id)
+    console.debug('###' + lruItem)
+    console.debug('###' + typeof lruItem)
+    console.debug('###' + JSON.stringify(lruItem))
     if(lruItem) {
-        await deleteCacheItem(lruItem._id)
+        await deleteCacheItem(lruItem.key)
     }
 }
 
